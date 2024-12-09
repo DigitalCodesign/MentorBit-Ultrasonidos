@@ -30,16 +30,16 @@
 */
 
 #include "MentorBitUltrasonidos.h"
-#include <arduino.h>
+
 
 /*
     Constructor, se dben indiar el pin de echo y de trigger
 */
-MentorBitUltrasonidos::MentorBitUltrasonidos(uint8_t trigger, uint8_t echo){
-    _trigger = trigger;
-    _echo = echo;
-    pinMode(_trigger,INPUT);
-    pinMode(_echo,INPUT);
+MentorBitUltrasonidos::MentorBitUltrasonidos(uint8_t trigger = 0, uint8_t echo = 0){
+    _port.gpios[0] = trigger;
+    _port.gpios[1] = echo;
+    pinMode(_port.gpios[0],OUTPUT);
+    pinMode(_port.gpios[1],INPUT);
 }
 
 /*
@@ -49,14 +49,23 @@ long MentorBitUltrasonidos::obtenerDistancia(){
     long time_in;
     long distance; // cm
 
-    digitalWrite(_trigger,LOW);
+    digitalWrite(_port.gpios[0],LOW);
     delayMicroseconds(4);
-    digitalWrite(_trigger,HIGH);
+    digitalWrite(_port.gpios[0],HIGH);
     delayMicroseconds(10);
-    digitalWrite(_trigger,LOW);
+    digitalWrite(_port.gpios[0],LOW);
 
-    time_in = pulseIn(_echo,HIGH);
+    time_in = pulseIn(_port.gpios[1],HIGH);
 
     distance = (time_in * 10 )/( 292 * 2);
     return distance;
+}
+
+void MentorBitUltrasonidos::configPort(const Port& port) {
+
+    _port.type = port.type;
+    _port.location = port.location;
+    _port.gpios[0] = port.gpios[0];
+    _port.gpios[1] = port.gpios[1];
+
 }

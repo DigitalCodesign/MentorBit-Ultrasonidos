@@ -31,21 +31,23 @@
 #ifndef MentorBitUltrasonidos_h
 #define MentorBitUltrasonidos_h
 
+#include <arduino.h>
 #include <Wire.h>
+#include <MentorPort.h>
 
-class MentorBitUltrasonidos
+class MentorBitUltrasonidos : public MentorPort
 {
     
   public:
 
-    MentorBitUltrasonidos(uint8_t trigger, uint8_t echo);
+    MentorBitUltrasonidos(uint8_t trigger = 0, uint8_t echo = 0);
     
     long obtenerDistancia();
+    void configPort(const Port& port) override;
 
   private:
 
-    uint8_t _trigger;
-    uint8_t _echo;
+    Port _port;
 
 };
 
