@@ -1,34 +1,46 @@
+
+
 # MentorBit-Ultrasonidos
+
 Esta librería está construida por Digital Codesign para utilizar el módulo de Ultrasonidos, principalmente diseñado para el kit educacional "MentorBit".
 
-Puedes encontrar nuestro MentorBit y mucho más material de electrónica y robótica en nuestra tienda oficial:  [https://digitalcodesign.com/shop](https://digitalcodesign.com/shop)
+Puedes encontrar nuestro MentorBit y mucho más material de electrónica y robótica en nuestra tienda oficial: [https://digitalcodesign.com/shop](https://digitalcodesign.com/shop)
 
 # Modo de empleo
 
-Una vez tengamos la librería instalada desde el Arduino IDE, tenemos que incluir la librería con la siguiente línea:
+Una vez tengamos la librería instalada desde el Arduino IDE, tenemos que incluirla con la siguiente línea:
 
-``#include <MentorBitUltrasonidos.h>``
+```cpp
+#include <MentorBitUltrasonidos.h>
+```
 
-Este sensor necesita de dos pines para funcionar: "Trigger", que cuando se activa manda una señal de una frecuencia alta hacia delante; y "Echo", que recive esta señal y manda el tiempo en ms que tardó la señal en llegar al receptor.
+Este sensor utiliza dos pines para funcionar correctamente:
 
+- **Trigger (o disparo)**: Este pin emite una señal de alta frecuencia cuando se activa, que se envía hacia adelante para detectar un objeto.
+- **Echo (o eco)**: Este pin recibe la señal reflejada por el objeto y mide el tiempo que tarda en regresar, lo que nos permite calcular la distancia.
 
-Para usar el sensor, efinimos los puertos por los que vamos a mandar y recivir la señal al sensor de ultrasonidos:
+Para usar el sensor, definimos los puertos para el **Trigger** y **Echo**:
 
-``#define PIN_ECHO A4
-#define PIN_TRIGGER 24``
-
+```cpp
+#define PIN_ECHO A4
+#define PIN_TRIGGER 24
+```
 
 ### Constructor
 
-Una vez incluida la librería y definido el pin dl zumbador, usamos el constructor para crear el objeto del zumbador, y empleamos el pin del zumbador que definimos anteriormente:
+Una vez incluida la librería y definidos los pines, usamos el constructor para crear el objeto del sensor de ultrasonidos, pasando los pines de **Trigger** y **Echo** como parámetros:
 
-``MentorBitUltrasonidos Ultrasonidos(PIN_TRIGGER,PIN_ECHO);``
-
+```cpp
+MentorBitUltrasonidos Ultrasonidos(PIN_TRIGGER, PIN_ECHO);
+```
 
 ### Uso
 
-Con nuestro sensor de ultrasonidos ya definido, ya podemos emplear la función "obtenerDistancia()" para obtener la distancia del objeto más cercano. 
+Con nuestro sensor de ultrasonidos definido, podemos utilizar la función `obtenerDistancia()` para obtener la distancia al objeto más cercano en centímetros. La función devolverá el valor en tipo `float`.
 
-``Ultrasonidos.obtenerdistancia()``
+```cpp
+float distancia = Ultrasonidos.obtenerDistancia();
+```
 
-A partir de aquí, podemos usar el código de ejemplo para crear alguna melodía, o el uso que se le quiera dar. 
+A partir de aquí, puedes utilizar el valor de distancia para realizar cualquier operación o acción en tu proyecto, como activar otros dispositivos según la proximidad del objeto.
+
