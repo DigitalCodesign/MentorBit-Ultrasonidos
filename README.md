@@ -1,46 +1,47 @@
+# MentorBitUltrasonidos
 
+Librería para la medición de distancias mediante un sensor ultrasónico en módulos compatibles con MentorBit.
 
-# MentorBit-Ultrasonidos
+## Descripción
 
-Esta librería está construida por Digital Codesign para utilizar el módulo de Ultrasonidos, principalmente diseñado para el kit educacional "MentorBit".
+La librería `MentorBitUltrasonidos` facilita la medición de distancias utilizando un sensor ultrasónico HC-SR04 en módulos compatibles con MentorBit. Permite obtener la distancia a objetos en centímetros, ideal para proyectos de robótica, evitación de obstáculos y medición de distancias.
 
-Puedes encontrar nuestro MentorBit y mucho más material de electrónica y robótica en nuestra tienda oficial: [https://digitalcodesign.com/shop](https://digitalcodesign.com/shop)
+## Modo de Empleo
 
-# Modo de empleo
+1.  **Instalación:**
+    * Abre el IDE compatible con MentorBit.
+    * Ve a "Herramientas" -> "Gestionar librerías..."
+    * Busca "MentorBitUltrasonidos" e instálala.
 
-Una vez tengamos la librería instalada desde el Arduino IDE, tenemos que incluirla con la siguiente línea:
+2.  **Ejemplo básico:**
 
-```cpp
-#include <MentorBitUltrasonidos.h>
-```
+    ```c++
+    #include <MentorBitUltrasonidos.h>
 
-Este sensor utiliza dos pines para funcionar correctamente:
+    MentorBitUltrasonidos ultrasonidos(7, 6); // Trigger en pin 7, Echo en pin 6
 
-- **Trigger (o disparo)**: Este pin emite una señal de alta frecuencia cuando se activa, que se envía hacia adelante para detectar un objeto.
-- **Echo (o eco)**: Este pin recibe la señal reflejada por el objeto y mide el tiempo que tarda en regresar, lo que nos permite calcular la distancia.
+    void setup() {
+      Serial.begin(9600);
+      Serial.println("Sensor ultrasónico inicializado.");
+    }
 
-Para usar el sensor, definimos los puertos para el **Trigger** y **Echo**:
+    void loop() {
+      long distancia = ultrasonidos.obtenerDistancia();
+      Serial.print("Distancia: ");
+      Serial.print(distancia);
+      Serial.println(" cm");
+      delay(100);
+    }
+    ```
 
-```cpp
-#define PIN_ECHO A4
-#define PIN_TRIGGER 24
-```
+## Constructor y Métodos Públicos
 
 ### Constructor
 
-Una vez incluida la librería y definidos los pines, usamos el constructor para crear el objeto del sensor de ultrasonidos, pasando los pines de **Trigger** y **Echo** como parámetros:
+* `MentorBitUltrasonidos(uint8_t trigger = 0, uint8_t echo = 0)`: Crea un objeto `MentorBitUltrasonidos`.
+    * `trigger`: Pin digital al que está conectado el pin Trigger del sensor.
+    * `echo`: Pin digital al que está conectado el pin Echo del sensor.
 
-```cpp
-MentorBitUltrasonidos Ultrasonidos(PIN_TRIGGER, PIN_ECHO);
-```
+### Métodos
 
-### Uso
-
-Con nuestro sensor de ultrasonidos definido, podemos utilizar la función `obtenerDistancia()` para obtener la distancia al objeto más cercano en centímetros. La función devolverá el valor en tipo `float`.
-
-```cpp
-float distancia = Ultrasonidos.obtenerDistancia();
-```
-
-A partir de aquí, puedes utilizar el valor de distancia para realizar cualquier operación o acción en tu proyecto, como activar otros dispositivos según la proximidad del objeto.
-
+* `long obtenerDistancia()`: Obtiene la distancia al objeto más cercano en centímetros.
